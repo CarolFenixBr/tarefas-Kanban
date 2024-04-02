@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+body{
+  background: #413e3e;
+}
+ 
+  .container {
+  width: 100%;
+  min-height: 100vh;  
+  margin: 0;  
+  display:inline-flex;  
+  }
+  
+  .kanban-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;    
+  }
+
+  .kanban-table {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;    
+    margin-bottom: 2rem;
+  }
+  
+  .kanban-block {
+    text-align: center;
+    padding: 15px;
+    width: 35.5%;
+    height: auto;
+    min-width: 14rem;
+    min-height: 4.5rem;
+    border-radius: 0.3rem;    
+  }
+
+  .kanban-form {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    background-color: #d4cbd4;
+    align-items: center; 
+    background: linear-gradient(230deg, #000000,#413e3e);
+    max-width: 340px;    
+    border-radius: 10px;
+    flex: 1
+  }
+
+  .kanban-form-title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #ffffff;
+    border-radius: 0.5rem;
+  }
+
+  .container-inputs {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input-text {
+    height: 2.5rem;
+    border-radius: 5px;
+    border: 0;
+    padding-left: 10px;
+    margin: 0.3rem;
+  }
+
+  .textarea-text {
+    height: auto;
+    border-radius: 5px;
+    border: 0;
+    padding-left: 10px;    
+  }
+b {
+  color: #fff; 
+  margin-top: 5px; 
+  padding: 10px;
+}
+b img{
+  width: 35px;
+  margin-left:10px;
+}
+hr{
+  width: 70%;
+  border: 1px solid #ebff70;
+  opacity: 80%;
+}
+  .btn-criar {
+    width: 30%;
+    background: #9966ff;
+    color: #fff;
+    border-radius: 15px;
+    border: 0;
+    outline: none;
+    font-size: 1.1rem;
+    margin: 0.3rem;
+    transition: 0.5s;
+  }
+
+  .btn-criar:hover {
+    background: #ebff70;
+    transition: 0.2s;    
+    color: rgb(0, 0, 0);
+  }
+
+  .btn-editar {
+    width: 30%;
+    background: #880875;
+    color: #e4e4e4;
+    border-radius: 15px;
+    border: 0;
+    outline: none;
+    font-size: 1.1rem;
+    margin: 0.3rem;
+    transition: 0.5s;
+  }
+
+  .btn-editar:hover {
+    background: #4e0543;
+    transition: 0.5s;
+    box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-excluir {
+    width: 30%;
+    background: #cc0a0a;
+    color: #e4e4e4;
+    border-radius: 15px;
+    border: 0;
+    outline: none;
+    font-size: 1.1rem;
+    margin: 0.3rem;
+    transition: 0.5s;
+  }
+
+  .btn-excluir:hover {
+    background: #820707;
+    transition: 0.5s;
+    box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  #pendentes {
+  width: 100%;
+  background: linear-gradient(230deg, #000000,#9966ff);
+  max-width: 340px;  
+  border-radius: 10px;
+  }
+  
+  #processos {
+  width: 100%;
+  background: linear-gradient(230deg, #03202b,#27a6d1);
+  max-width: 340px;  
+  border-radius: 10px;
+  }
+  
+  #completos {
+  width: 100%;
+  background: linear-gradient(230deg,#90e64b, #02340f);
+  max-width: 340px;  
+  border-radius: 10px;
+  }
+  
+  .tarefa {
+    text-align: start;
+    background-color: rgb(223, 215, 224);
+    margin: 0.2rem 0rem 0.3rem 0rem;    
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.2rem 0.5rem 2rem;
+  }
+
+  @media (max-width: 768px) {
+      .kanban-table {
+        flex-direction: column;
+      }
+
+      .kanban-block {
+        width: 100%;
+        max-width: none;
+      }
+
+      #pendentes, #processos, #completos {
+        margin-bottom: 1rem;
+      }
+    }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        
+        <div class="kanban-table">
+
+            <div class="kanban-block kanban-form">
+                <b class="kanban-form-title" style="font-size: 28px;">Tarefa <img src="https://cdn-icons-png.flaticon.com/512/7589/7589277.png"> </b>
+    
+                <div class="container-inputs">                    
+                    <input type="text" id="tarefa-nome" class="input-text">
+                    <br>
+                    <b class="b-input" style="font-size: larger;">Descrição: </b>
+                    <br>
+                    <textarea type="text" id="tarefa-descricao" class="textarea-text" rows="5"></textarea>        
+                </div>
+    <br>
+                <input class="btn-criar" id="btn-criar-editar" type="submit" value="Criar" onclick="criarTarefa(event)"/>
+            </div>
+<br>
+            <div class="kanban-block" id="pendentes" ondrop="drop(event)" ondragover="allowDrop(event)">
+                
+                <b style="font-size: 25px;"> Backlog <img src="https://cdn-icons-png.flaticon.com/512/3585/3585049.png" alt=""> </b>
+                <br><br>
+              <hr><br>
+            </div>
+
+            <div class="kanban-block" id="processos" ondrop="drop(event)" ondragover="allowDrop(event)">             
+              <b style="font-size: 25px;"> Em andamento <img src="https://cdn-icons-png.flaticon.com/512/6791/6791368.png" alt=""> </b>
+              <br><br>
+              <hr><br>
+            </div>
+
+            <div class="kanban-block" id="completos" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <b style="font-size: 25px;"> Completos <img src="https://cdn-icons-png.flaticon.com/512/3362/3362791.png" alt=""> </b>
+              <br><br>
+              <hr><br>
+            </div>
+
+        </div>
+
+    </div>
+
+<script>
+  const tarefa = {
+  id: '',
+  nome: '',
+  descripcion: '',
+    
+  }
+
+let isEditando = false
+let isValido = false
+
+function drag(event) {
+    event.dataTransfer.setData("text", event.target.id)
+}
+
+function allowDrop(event) {
+    event.preventDefault()
+}
+
+function drop(event) {
+    event.preventDefault()
+    const data = event.dataTransfer.getData("text")
+    event.currentTarget.appendChild(document.getElementById(data))
+}
+
+function criarTarefa(event) {
+    event.preventDefault()
+
+    validarCampos(
+        document.getElementById("tarefa-nome").value,
+        document.getElementById("tarefa-descricao").value
+    )
+
+    if(isValido) {
+        if (isEditando) {
+            const divTarefa = document.getElementById(tarefa.id)
+            divTarefa.childNodes[0].textContent = document.getElementById("tarefa-nome").value
+            divTarefa.childNodes[1].textContent = document.getElementById("tarefa-descricao").value
+           
+
+            const btnEditar = document.getElementById("btn-criar-editar")
+            btnEditar.value = "Criar Tarefa"
+            btnEditar.classList.remove('btn-editar')
+            btnEditar.classList.add('btn-criar')
+        } else {
+            tarefa.nome = document.getElementById("tarefa-nome").value
+            tarefa.descripcion = document.getElementById("tarefa-descricao").value
+            
+            registrarTarefa()
+        }
+    }
+
+    limparCampos()
+    limparObj()
+}
+
+function limparCampos() {
+    document.getElementById("tarefa-nome").value = ''
+    document.getElementById("tarefa-descricao").value = ''
+   
+    
+} 
+
+function limparObj() {
+    tarefa.id = ''
+    tarefa.nome = ''
+    tarefa.descripcion = ''
+    
+
+    isValido = false
+    isEditando = false
+}
+
+function validarCampos(nome, descripcion) {
+    if (nome === '' || descripcion === '') {
+        alert('Você deve atribuir o nome e a descrição da tarefa')
+        isValido = false
+    } else {
+        isValido = true
+    }
+}
+
+function registrarTarefa() {
+    tarefa.id = new Date().getTime()
+
+    const pendentes = document.getElementById("pendentes")
+
+    const divTarefa = document.createElement('div')
+    divTarefa.classList.add('tarefa')
+    divTarefa.setAttribute('id', tarefa.id)
+    divTarefa.setAttribute('draggable', true)
+    divTarefa.setAttribute('ondragstart', 'drag(event)')
+
+    const pnome = document.createElement('p')
+    pnome.setAttribute('id', 'nome')
+    pnome.textContent = tarefa.nome
+
+    const pDescripcion = document.createElement('p')
+    pDescripcion.setAttribute('id', 'descripcion')
+    pDescripcion.textContent = tarefa.descripcion
+
+    
+
+    const inputEditar = document.createElement('input')
+    inputEditar.classList.add('btn-criar')
+    inputEditar.setAttribute('type', 'submit')
+    inputEditar.value = 'Editar'
+    inputEditar.onclick = function() {
+        isEditando = true
+        tarefa.id = divTarefa.getAttribute('id')
+        tarefa.nome = pnome.textContent
+        tarefa.descripcion = pDescripcion.textContent        
+        editarTarefa()
+    }
+
+    const inputexcluir = document.createElement('input')
+    inputexcluir.classList.add('btn-excluir')
+    inputexcluir.setAttribute('type', 'submit')
+    inputexcluir.value = 'Excluir'
+    inputexcluir.onclick = function() {
+        divTarefa.remove()
+    }
+
+    divTarefa.appendChild(pnome)
+    divTarefa.appendChild(pDescripcion)   
+    divTarefa.appendChild(inputEditar)
+    divTarefa.appendChild(inputexcluir)
+    pendentes.appendChild(divTarefa)
+}
+
+function editarTarefa() {
+    const btnEditar = document.getElementById("btn-criar-editar")
+    btnEditar.value = "Editar Tarefa"
+    btnEditar.classList.remove('btn-criar')
+    btnEditar.classList.add('btn-editar')
+
+    document.getElementById("tarefa-nome").value = tarefa.nome
+    document.getElementById("tarefa-descricao").value = tarefa.descripcion    
+}
+</script>
+</body>
+</html>
